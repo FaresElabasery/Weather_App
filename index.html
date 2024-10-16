@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <!-- css link -->
+    <link rel="stylesheet" href="css/weather.css">
+    <!-- fontAwesome -->
+    <link rel="stylesheet" href="css/all.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="card-weather">
+        <div class="search d-flex justify-content-between align-content-center">
+            <input class="w-100 border-0 rounded-pill" type="search" name="city" id="city" placeholder="Enter city name"
+                aria-label="enter city name" spellcheck="false">
+            <button id="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <div class="show">
+            <div class="cols">
+                <div class="error">
+                    <p>Invalid City Name</p>
+                </div>
+            </div>
+            <div class="cols"> <span>Show Pictures</span>
+                <label class="switch">
+                    <input id="show" type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+        <div class="weather">
+            <img class="weather-icon" src="images/rain.png" alt="rain">
+            <h1 class="temp">22°c</h1>
+            <h2 class="city">New york</h2>
+            <div class="details pb-lg-1 mt-5 gap-2">
+                <div class="cols ">
+                    <img src="images/humidity.png" alt="humidity">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p> humidity</p>
+                    </div>
+                </div>
+                <div class="cols">
+                    <img src="images/wind.png" alt="wind">
+                    <div>
+                        <p class="wind">50 km/h</p>
+                        <p> Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- js links -->
+    <script src="js/script.js"></script>
+    <!-- bootstrap link -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- fontAwesome link -->
+    <script src="js/all.min.js"></script>
+
+</body>
+
+</html>

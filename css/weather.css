@@ -1,0 +1,219 @@
+:root {
+    --background-color: #03001C;
+    --dark-color: #5b548a;
+    --green-color: #00feba;
+    --light-color: #ebfffc;
+    --brown-color: #555;
+}
+
+* {
+    font-family: "Poppins", 'sans-serif';
+}
+
+body {
+    background-color: var(--background-color) !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    body {
+        height: 100vh;
+    }
+}
+
+.card-weather {
+    color: #fff;
+    width: 90%;
+    max-width: 470px;
+    background: linear-gradient(135deg, #00feba, #5b548a);
+    margin: 100px auto 0;
+    border-radius: 20px;
+    padding: 35px 35px;
+    text-align: center;
+    outline: none;
+}
+
+.search input {
+    outline: none;
+    padding: 10px 25px;
+    flex: 1;
+    height: 60px;
+    margin-right: 1rem;
+    background-color: #ebfffc;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.search button {
+    outline: none;
+    border: none;
+    background-color: #ebfffc;
+    border-radius: 50%;
+    color: #555;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.weather .weather-icon {
+    width: 170px;
+    margin-top: 30px;
+}
+
+.weather h1 {
+    font-size: 80px;
+    font-weight: 500;
+}
+
+.weather h2 {
+    font-size: 45px;
+    font-weight: 400;
+    margin-top: -10px;
+}
+
+.details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* padding: 0 15px; */
+    /* margin-top: 40px; */
+}
+
+.weather .cols {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.weather .cols img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.weather .cols p {
+    margin-bottom: -5px;
+}
+
+@media (max-width: 410px) {
+    .weather .cols p {
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width: 376px) {
+    .card-weather {
+        margin: 20px auto 0 !important;
+    }
+
+    .weather .cols p {
+        text-wrap: nowrap;
+    }
+
+}
+
+.humidity,
+.wind {
+    font-size: 28px;
+    margin-top: -6px;
+}
+
+.weather {
+    opacity: 0;
+    height: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.card-weather .error p {
+    text-align: left;
+    padding: 10px 0 0 20px;
+}
+
+.card-weather .error {
+    display: none;
+}
+
+.filter {
+    background: transparent !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.show {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 10px 10px -10px 0;
+}
+
+.show .cols:nth-last-child(1) {
+    display: flex;
+    align-items: center;
+}
+
+.show .cols:nth-last-child(1) span {
+    padding: 10px;
+}

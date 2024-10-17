@@ -5,67 +5,131 @@ const searchBtn = document.getElementById('search');
 const weatherIcon = document.querySelector('.weather-icon');
 const showPhotos = document.getElementById('show')
 const weatherCard = document.querySelector('.card-weather')
+
+
+
+/**
+ * Fetches weather data for a given city from OpenWeatherMap API and updates the UI accordingly.
+ * If the weather data is not available or an error occurs, it displays an error message and removes the background image.
+ *
+ * @param {string} city - The name of the city to fetch weather data for.
+ * @returns {Promise<void>} - A promise that resolves when the weather data is fetched and UI is updated.
+ */
 async function checkWeather(city) {
-    const response = await fetch(url + city + `&appid=${key}` + `&units=metric`)
-    var data = await response.json();
-    console.log(data);
-    if (response.statusText != 'OK') {
-        document.querySelector('.weather').style.opacity = 0;
-        document.querySelector('.weather').style.height = '0';
-        document.querySelector('.error').style.display = 'block';
-        document.querySelector('body').style.backgroundImage = 'none';
-    } else {
+    try {
+        const response = await fetch(url + city + `&appid=${key}` + `&units=metric`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
 
-        document.querySelector('.city').innerHTML = data.name;
-        document.querySelector('.temp').innerHTML = Math.round(data.main.temp) + '°c';
-        document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
-        document.querySelector('.wind').innerHTML = data.wind.speed + " km/h";
-        if (data.weather[0].main == 'Clear')
-            weatherIcon.src = 'images/clear.png';
-        else if (data.weather[0].main == 'Clouds')
-            weatherIcon.src = 'images/clouds.png';
-        else if (data.weather[0].main == 'Drizzle')
-            weatherIcon.src = 'images/drizzle.png';
-        else if (data.weather[0].main == 'Rain')
-            weatherIcon.src = 'images/rain.png';
-        else if (data.weather[0].main == 'Snow')
-            weatherIcon.src = 'images/snow.png';
-        else if (data.weather[0].main == 'Mist')
-            weatherIcon.src = 'images/mist.png';
-        else if (data.weather[0].main == 'Wind')
-            weatherIcon.src = 'images/wind.png';
-        else
-            weatherIcon.src = '/images/clear.png';
-        console.log(data.weather[0].main);
-
-
-        document.querySelector('.error').style.display = 'none';
-        document.querySelector('.weather').style.opacity = 1;
-        document.querySelector('.weather').style.height = '448px';
-
-
+        updateWeatherUI(data);
+    } catch (error) {
+        displayErrorMessage();
+        console.error('Error:', error);
     }
 }
+
+/**
+ * Updates the weather UI with the fetched data.
+ *
+ * @param {Object} data - The weather data fetched from the API.
+ */
+function updateWeatherUI(data) {
+    document.querySelector('.city').innerHTML = data.name;
+    document.querySelector('.temp').innerHTML = Math.round(data.main.temp) + '°c';
+    document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
+    document.querySelector('.wind').innerHTML = data.wind.speed + " km/h";
+
+    const weatherCondition = data.weather[0].main;
+    const weatherIconSrc = getWeatherIconSrc(weatherCondition);
+    weatherIcon.src = weatherIconSrc;
+
+    hideErrorMessage();
+    showWeatherCard();
+}
+
+/**
+ * Returns the appropriate weather icon source based on the weather condition.
+ *
+ * @param {string} weatherCondition - The weather condition (e.g., Clear, Clouds, Rain, Snow, etc.).
+ * @returns {string} - The source URL of the weather icon.
+ */
+function getWeatherIconSrc(weatherCondition) {
+    switch (weatherCondition) {
+        case 'Clear':
+            return 'images/clear.png';
+        case 'Clouds':
+            return 'images/clouds.png';
+        case 'Drizzle':
+            return 'images/drizzle.png';
+        case 'Rain':
+            return 'images/rain.png';
+        case 'Snow':
+            return 'images/snow.png';
+        case 'Mist':
+            return 'images/mist.png';
+        case 'Wind':
+            return 'images/wind.png';
+        default:
+            return 'images/clear.png';
+    }
+}
+
+/**
+ * Displays an error message in the UI and removes the background image.
+ */
+function displayErrorMessage() {
+    document.querySelector('.weather').style.opacity = 0;
+    document.querySelector('.weather').style.height = '0';
+    document.querySelector('.error').style.display = 'block';
+    document.querySelector('body').style.backgroundImage = 'none';
+    weatherCard.classList.remove("filter");
+}
+
+/**
+ * Hides the error message in the UI.
+ */
+function hideErrorMessage() {
+    document.querySelector('.error').style.display = 'none';
+}
+
+/**
+ * Shows the weather card in the UI.
+ */
+function showWeatherCard() {
+    document.querySelector('.weather').style.opacity = 1;
+    document.querySelector('.weather').style.height = '448px';
+}
+
+/**
+ * Event listener for the search button click event.
+ * Calls the checkWeather function with the value of the city input field.
+ * If the showPhotos checkbox is checked, it calls the getPhoto function with the value of the city input field
+ * and adds the "filter" class to the weatherCard element.
+ * Otherwise, it removes the background image and sets the weatherCard element's background color.
+ */
 searchBtn.addEventListener('click', () => {
     checkWeather(city.value);
 
-
     if (showPhotos.checked == true) {
-        getPhoto(city.value)
-        weatherCard.classList.add("filter")
-    }
-    else {
+        getPhoto(city.value);
+        weatherCard.classList.add("filter");
+    } else {
         document.querySelector('body').style.backgroundImage = 'none';
         weatherCard.style.backgroundColor = 'linear-gradient(135deg, #00feba, #5b548a)';
-        weatherCard.classList.remove("filter")
+        weatherCard.classList.remove("filter");
     }
-})
+});
 
 
-// 
-
-// ...
-
+/**
+ * Fetches a random photo related to the given city from Unsplash API and sets it as the background image.
+ * If no photos are found, the background image is set to none.
+ *
+ * @param {string} city - The name of the city to search for photos.
+ * @returns {Promise<void>} - A promise that resolves when the background image is set.
+ */
 async function getPhoto(city) {
     // Fetch a random photo related to the city
     const unsplashResponse = await fetch(`https://api.unsplash.com/search/photos?query=${city}&client_id=tt7jtSDzXkYFim6A1yl5GPJ_3pr6ZlzJ5owotnnLHX8`);
@@ -78,5 +142,3 @@ async function getPhoto(city) {
     }
 }
 
-
-// ...
